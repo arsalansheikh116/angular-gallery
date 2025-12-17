@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: '', component: ImageGridComponent },
 
   // Details page
-  { path: 'details/:id', component: DetailsComponent },
+  { path: 'details/:id', component: DetailsComponent, data: { renderMode: 'server' } },
 
   // Clusters
   { path: 'clusters', component: ClustersComponent },
