@@ -1,7 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "dist/my-angular-app/**/*", "use": "@vercel/static" }
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/my-angular-app"
+      }
+    }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
