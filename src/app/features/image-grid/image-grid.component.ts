@@ -36,8 +36,8 @@ interface PhotoWithImage extends Photo {
 
       <!-- Masonry Grid -->
       <div *ngIf="photos$ | async as photos"
-           class="masonry-grid">
-           <div *ngFor="let photo of photos; trackBy: trackByPhotoId"
+           class="masonry-grid mb-8">
+        <div *ngFor="let photo of getPaginatedPhotos(photos); trackBy: trackByPhotoId"
              class="masonry-item group cursor-pointer"
              [routerLink]="['/details', photo.id]"
              [queryParams]="{ imgurl: photo.displayUrl }">
@@ -65,6 +65,27 @@ interface PhotoWithImage extends Photo {
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="(photos$ | async) as photos" class="flex justify-center items-center gap-2 mt-8">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Previous
+        </button>
+
+        <span class="px-4 py-2 text-gray-700">
+          Page {{ currentPage }} of {{ getTotalPages(photos) }}
+        </span>
+
+        <button
+          (click)="nextPage(photos)"
+          [disabled]="currentPage >= getTotalPages(photos)"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Next
+        </button>
       </div>
 
       <!-- Empty State -->
@@ -96,7 +117,7 @@ interface PhotoWithImage extends Photo {
       break-inside: avoid;
       margin-bottom: 1rem;
       display: inline-block;
-      width: 95%;
+      width: 100%;
     }
   `]
 })
@@ -104,6 +125,9 @@ export class ImageGridComponent implements OnInit {
   photos$!: Observable<PhotoWithImage[]>;
   loading$!: Observable<boolean>;
   error$!: Observable<string | null>;
+
+  currentPage = 1;
+  pageSize = 12;
 
   skeletons = Array.from({ length: 12 }, () => ({
     height: 200 + Math.random() * 150
@@ -128,7 +152,7 @@ export class ImageGridComponent implements OnInit {
   ngOnInit(): void {
     this.photos$ = this.photoService.getPhotos().pipe(
       map((photos) =>
-        photos.slice(0, 500).map((photo, index) => ({
+        photos.map((photo, index) => ({
           ...photo,
           displayUrl: this.imgArr[index % this.imgArr.length]
         }))
@@ -142,6 +166,36 @@ export class ImageGridComponent implements OnInit {
     );
 
     this.error$ = of(null);
+  }
+
+  getPaginatedPhotos(photos: PhotoWithImage[]): PhotoWithImage[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return photos.slice(startIndex, endIndex);
+  }
+
+  getTotalPages(photos: PhotoWithImage[]): number {
+    return Math.ceil(photos.length / this.pageSize);
+  }
+
+  nextPage(photos: PhotoWithImage[]): void {
+    if (this.currentPage < this.getTotalPages(photos)) {
+      this.currentPage++;
+      this.scrollToTop();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.scrollToTop();
+    }
+  }
+
+  private scrollToTop(): void {
+    if (this.isBrowser) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   trackByPhotoId(_: number, photo: Photo): number {
