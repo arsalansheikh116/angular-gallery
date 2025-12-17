@@ -1,14 +1,13 @@
 {
-  "name": "my-angular-app",
+  "name": "angular-gallery",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-  "build:ssr": "ng build --configuration production",
-  "serve:ssr": "node dist/my-angular-app/server/main.mjs",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:my-angular-app": "node dist/my-angular-app/server/server.mjs"
+     "serve:ssr": "node dist/my-angular-app/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -25,30 +24,30 @@
   "private": true,
   "packageManager": "npm@10.9.2",
   "dependencies": {
+    "@angular/animations": "^21.0.5",
     "@angular/common": "^21.0.5",
-    "@angular/compiler": "^21.0.0",
+    "@angular/compiler": "^21.0.5",
     "@angular/core": "^21.0.5",
-    "@angular/forms": "^21.0.0",
+    "@angular/forms": "^21.0.5",
     "@angular/platform-browser": "^21.0.5",
     "@angular/platform-browser-dynamic": "^21.0.5",
     "@angular/platform-server": "^21.0.5",
-    "@angular/router": "^21.0.0",
-    "@angular/ssr": "^21.0.1",
-    "express": "^5.1.0",
+    "@angular/router": "^21.0.5",
+    "@angular/ssr": "^21.0.3",
+    "express": "^4.21.2",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^21.0.3",
-    "@angular/cli": "^21.0.1",
-    "@angular/compiler-cli": "^21.0.0",
+    "@angular-devkit/build-angular": "^21.0.3",
+    "@angular/cli": "^21.0.3",
+    "@angular/compiler-cli": "^21.0.5",
     "@tailwindcss/postcss": "^4.1.12",
-    "@types/express": "^5.0.1",
+    "@types/express": "^4.17.21",
     "@types/node": "^20.17.19",
-    "jsdom": "^27.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.12",
-    "typescript": "~5.9.2",
-    "vitest": "^4.0.8"
+    "typescript": "~5.6.3"
   }
 }
