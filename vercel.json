@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/my-angular-app/server/main.mjs",
+      "src": "dist/my-angular-app/server/server.mjs",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/my-angular-app/server/main.mjs"
+      "dest": "dist/my-angular-app/server/server.mjs"
     }
   ]
 }
