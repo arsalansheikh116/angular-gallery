@@ -95,7 +95,7 @@ interface PhotoWithImage extends Photo {
       break-inside: avoid;
       margin-bottom: 1rem;
       display: inline-block;
-      width: 100%;
+      width: 95%;
     }
   `]
 })

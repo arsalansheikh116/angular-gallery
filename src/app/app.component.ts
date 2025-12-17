@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   imports: [RouterOutlet, RouterLink, CommonModule],
   template: `
     <nav class="sticky top-0 z-50 bg-white border-b-2 border-gray-200">
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center">
             <button class="md:hidden mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-400" (click)="toggleMenu()">
@@ -17,7 +17,6 @@ import { CommonModule } from '@angular/common';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
             </button>
-            <span class="font-bold text-lg text-gray-800 select-none">MyApp</span>
           </div>
           <div class="hidden md:flex gap-8">
             <a routerLink="/" [ngClass]="isActive('/') ? 'active-link' : ''"
@@ -45,8 +44,8 @@ import { CommonModule } from '@angular/common';
         </div>
       </div>
     </nav>
-    <main class="min-h-[calc(100vh-56px)] flex justify-center items-start bg-gray-50 py-8">
-      <section class="w-full max-w-6xl bg-white rounded-xl shadow-md p-8 min-h-[400px]">
+    <main class="min-h-[calc(100vh-56px)] flex justify-center items-start bg-gray-50 pt-2 pb-4">
+      <section class="w-full max-w-full bg-white rounded-lg shadow-md min-h-[400px] px-0 sm:px-2 md:px-4 lg:px-6 xl:px-8 2xl:px-10 py-6">
         <router-outlet></router-outlet>
       </section>
     </main>
