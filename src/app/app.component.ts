@@ -7,26 +7,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, RouterLink, CommonModule],
   template: `
-    <nav class="bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg">
+    <nav class="main-navbar">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
-          <div class="flex gap-4">
-            <a routerLink="/" routerLinkActive="bg-white/20" 
-               class="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors font-medium" aria-current="page">
-              Home
-            </a>
-            <a routerLink="/clusters" routerLinkActive="bg-white/20"
-               class="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors font-medium">
-              Clusters
-            </a>
-            <a routerLink="/performance" routerLinkActive="bg-white/20"
-               class="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors font-medium">
-              Performance
-            </a>
-            <a routerLink="/debug" routerLinkActive="bg-white/20"
-               class="text-white px-4 py-2 rounded-md hover:bg-white/10 transition-colors font-medium">
-              Debug
-            </a>
+          <div class="nav-links">
+            <a routerLink="/" routerLinkActive="active-link" aria-current="page">Home</a>
+            <a routerLink="/clusters" routerLinkActive="active-link">Clusters</a>
+            <a routerLink="/performance" routerLinkActive="active-link">Performance</a>
+            <a routerLink="/debug" routerLinkActive="active-link">Debug</a>
           </div>
         </div>
       </div>
@@ -35,6 +23,49 @@ import { CommonModule } from '@angular/common';
       <router-outlet />
     </div>
   `,
-  styles: []
+  styles: [`
+    .main-navbar {
+      background: #fff;
+      color: #000;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+    .nav-links a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border-bottom: 2px solid transparent;
+      transition: background 0.18s, color 0.18s, border 0.18s;
+      font-size: 1rem;
+      margin-right: 0;
+      display: inline-block;
+    }
+    .nav-links a:last-child {
+      margin-right: 0;
+    }
+    .nav-links a:hover {
+      background: #f0f0f0;
+      color: #222;
+      border-bottom: 2px solid #bdbdbd;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    }
+    .nav-links a.active-link {
+      border-bottom: 2px solid #222;
+      color: #222;
+      background: #eaeaea;
+    }
+  `]
 })
 export class AppComponent {}
