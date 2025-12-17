@@ -1,0 +1,13 @@
+h1 {
+  font-family: Arial, sans-serif;
+  color: #1a202c;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 4px 0;
+}
