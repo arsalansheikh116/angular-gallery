@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-     "build": "ng build --configuration production",
+    "build:ssr": "ng run my-angular-app:server:production",
+    "serve:ssr": "node dist/my-angular-app/server/main.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:my-angular-app": "node dist/my-angular-app/server/server.mjs"
