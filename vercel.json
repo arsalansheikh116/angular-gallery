@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "dist/my-angular-app/server/server.mjs"
-    }
-  ]
-}
