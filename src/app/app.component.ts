@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -7,65 +8,73 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, RouterLink, CommonModule],
   template: `
-    <nav class="main-navbar">
+    <nav class="sticky top-0 z-50 bg-white border-b-2 border-gray-200">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
-          <div class="nav-links">
-            <a routerLink="/" routerLinkActive="active-link" aria-current="page">Home</a>
-            <a routerLink="/clusters" routerLinkActive="active-link">Clusters</a>
-            <a routerLink="/performance" routerLinkActive="active-link">Performance</a>
-            <a routerLink="/debug" routerLinkActive="active-link">Debug</a>
+          <div class="flex items-center">
+            <button class="md:hidden mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-gray-400" (click)="toggleMenu()">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+            <span class="font-bold text-lg text-gray-800 select-none">MyApp</span>
           </div>
+          <div class="hidden md:flex gap-8">
+            <a routerLink="/" [ngClass]="isActive('/') ? 'active-link' : ''"
+              class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300"
+              aria-current="page">Home</a>
+            <a routerLink="/clusters" [ngClass]="isActive('/clusters') ? 'active-link' : ''"
+              class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300">Clusters</a>
+            <a routerLink="/performance" [ngClass]="isActive('/performance') ? 'active-link' : ''"
+              class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300">Performance</a>
+            <a routerLink="/debug" [ngClass]="isActive('/debug') ? 'active-link' : ''"
+              class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300">Debug</a>
+          </div>
+        </div>
+        <!-- Mobile menu -->
+        <div *ngIf="menuOpen" class="md:hidden mt-2 flex flex-col gap-2">
+          <a routerLink="/" (click)="closeMenu()" [ngClass]="isActive('/') ? 'active-link' : ''"
+            class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300"
+            aria-current="page">Home</a>
+          <a routerLink="/clusters" (click)="closeMenu()" [ngClass]="isActive('/clusters') ? 'active-link' : ''"
+            class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300">Clusters</a>
+          <a routerLink="/performance" (click)="closeMenu()" [ngClass]="isActive('/performance') ? 'active-link' : ''"
+            class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300">Performance</a>
+          <a routerLink="/debug" (click)="closeMenu()" [ngClass]="isActive('/debug') ? 'active-link' : ''"
+            class="px-4 py-2 rounded-md font-medium text-black transition hover:bg-gray-100 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300">Debug</a>
         </div>
       </div>
     </nav>
-    <div class="min-h-screen bg-gray-50">
-      <router-outlet />
-    </div>
+    <main class="min-h-[calc(100vh-56px)] flex justify-center items-start bg-gray-50 py-8">
+      <section class="w-full max-w-6xl bg-white rounded-xl shadow-md p-8 min-h-[400px]">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
   `,
-  styles: [`
-    .main-navbar {
-      background: #fff;
-      color: #000;
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      border-bottom: 2px solid #e0e0e0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-    }
-    .nav-links a {
-      color: #000;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px 18px;
-      border-radius: 6px;
-      border-bottom: 2px solid transparent;
-      transition: background 0.18s, color 0.18s, border 0.18s;
-      font-size: 1rem;
-      margin-right: 0;
-      display: inline-block;
-    }
-    .nav-links a:last-child {
-      margin-right: 0;
-    }
-    .nav-links a:hover {
-      background: #f0f0f0;
-      color: #222;
-      border-bottom: 2px solid #bdbdbd;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-    }
-    .nav-links a.active-link {
-      border-bottom: 2px solid #222;
-      color: #222;
+  styles: [
+    `.active-link {
+      border-bottom: 2px solid #222 !important;
+      color: #222 !important;
       background: #eaeaea;
-    }
-  `]
+    }`
+  ]
 })
-export class AppComponent {}
+
+export class AppComponent {
+  menuOpen = false;
+  constructor(private router: Router) {}
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
+  isActive(path: string): boolean {
+    if (path === '/') {
+      return this.router.url === '/';
+    }
+    return this.router.url.startsWith(path);
+  }
+}

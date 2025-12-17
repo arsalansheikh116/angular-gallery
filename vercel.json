@@ -1,3 +1,12 @@
 {
-  "framework": "angular"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/my-angular-app/browser",
+  "devCommand": "npm run start",
+  "installCommand": "npm install",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
