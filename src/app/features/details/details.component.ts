@@ -34,15 +34,16 @@ import { catchError, switchMap } from 'rxjs/operators';
       </div>
 
       <div *ngIf="photo$ | async as photo" class="max-w-4xl mx-auto">
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8 flex flex-col items-center">
           <img 
-            [ngSrc]="photo.url"
+            [ngSrc]="imgUrlParam || photo.url"
             [alt]="photo.title"
-            [width]="600"
-            [height]="600"
+            [width]="400"
+            [height]="320"
             priority
-            class="w-full h-auto object-cover"
+            class="w-full max-w-md h-[320px] object-cover"
           />
+          <div class="mt-2 text-gray-700 text-base font-semibold">Image ID: {{ imageId }}</div>
         </div>
 
         <div class="bg-white rounded-lg shadow-lg p-8">
@@ -63,10 +64,10 @@ import { catchError, switchMap } from 'rxjs/operators';
             <div class="space-y-3">
               <div class="flex flex-col">
                 <span class="text-gray-600 font-medium mb-2">Original URL:</span>
-                <a [href]="photo.url" 
+                <a [href]="imgUrlParam || photo.url" 
                    target="_blank" 
                    class="text-blue-600 hover:text-blue-800 text-sm break-all">
-                  {{ photo.url }}
+                  {{ imgUrlParam || photo.url }}
                 </a>
               </div>
             </div>
@@ -102,6 +103,8 @@ export class DetailsComponent implements OnInit {
   photo$!: Observable<Photo>;
   error$!: Observable<string | null>;
   loading = true;
+  imgUrlParam: string | null = null;
+  imageId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -109,6 +112,8 @@ export class DetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.imgUrlParam = this.route.snapshot.queryParamMap.get('imgurl');
+    this.imageId = this.route.snapshot.paramMap.get('id');
     this.photo$ = this.route.paramMap.pipe(
       switchMap(params => {
         const id = params.get('id');

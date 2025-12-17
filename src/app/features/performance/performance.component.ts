@@ -7,6 +7,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 
 interface BenchmarkResult {
   primesFound: number;
@@ -32,7 +33,7 @@ interface BenchmarkResult {
           (click)="runBenchmark()"
           [disabled]="isRunning || !isBrowser"
           class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold
-                 hover:bg-blue-700 disabled:bg-gray-400">
+                 hover:bg-blue-700 disabled:bg-gray-400 cursor-pointer">
           {{ isRunning ? 'Running...' : 'Run Benchmark' }}
         </button>
 
@@ -40,7 +41,7 @@ interface BenchmarkResult {
           (click)="clearHistory()"
           [disabled]="results.length === 0"
           class="px-6 py-3 bg-gray-600 text-white rounded-lg font-semibold
-                 hover:bg-gray-700 disabled:bg-gray-400">
+                 hover:bg-gray-700 disabled:bg-gray-400 cursor-pointer">
           Clear History
         </button>
 
@@ -126,7 +127,7 @@ export class PerformanceComponent implements OnInit, OnDestroy {
 
   private worker: Worker | null = null;
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) platformId: Object, private cdr: ChangeDetectorRef) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -152,11 +153,13 @@ export class PerformanceComponent implements OnInit, OnDestroy {
         this.results.unshift(result);
         this.latestResult = result;
         this.isRunning = false;
+        this.cdr.markForCheck();
       };
 
       this.worker.onerror = (err) => {
         console.error('Worker error', err);
         this.isRunning = false;
+        this.cdr.markForCheck();
       };
     }
   }

@@ -37,9 +37,10 @@ interface PhotoWithImage extends Photo {
       <!-- Masonry Grid -->
       <div *ngIf="photos$ | async as photos"
            class="masonry-grid">
-        <div *ngFor="let photo of photos; trackBy: trackByPhotoId"
+           <div *ngFor="let photo of photos; trackBy: trackByPhotoId"
              class="masonry-item group cursor-pointer"
-             [routerLink]="['/details', photo.id]">
+             [routerLink]="['/details', photo.id]"
+             [queryParams]="{ imgurl: photo.displayUrl }">
 
           <div class="relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
             <img
